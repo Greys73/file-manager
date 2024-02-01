@@ -5,3 +5,19 @@ export const getUserNameFromArgs = (args) => {
   if(arg) arg = arg.replace(flag, '').trim();
   return arg || null;
 };
+
+const reset = '\x1b[0m';
+export const log = {
+  error: (text) => console.log('\x1b[31m' + text + reset),
+  info: (text) => console.log('\x1b[32m' + text + reset),
+  warn: (text) => console.log('\x1b[33m' + text + reset),
+  message: (text) => console.log('\x1b[47m' + text + reset),
+}
+
+export const parseCommand = (text) => {
+  const regex = /[^\s"]+|"([^"]*)"/g;
+  const matches = text.match(regex);
+  const command = matches.shift();
+  const args = matches.map((arg) => arg.replaceAll('"', ''));
+  return { command, args };
+}
