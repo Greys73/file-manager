@@ -11,6 +11,7 @@ const userName = getUserNameFromArgs(process.argv.slice(2)) || 'My friend';
 let currentDir = homedir();
 
 const printWay = () => log.info(`You are currently in ${ currentDir }`);
+const printInputWarn = () => log.warn('Invalid input');
 
 const rl = readline.createInterface({ input, output, prompt: '>' });
 rl.on('line', (data) => { execCommand(data) });
@@ -21,29 +22,29 @@ const execCommand = async (text) => {
   switch (command) {
     case 'up':
     case 'cd..':
-      if(args.length) log.warn('Invalid input');
+      if(args.length) printInputWarn();
       else currentDir = path.normalize(`${currentDir}/..`);
       break;
     case 'cd':
-      if(args.length !== 1) log.warn('Invalid input');
+      if(args.length !== 1) printInputWarn();
       else {
         const { data, error } = await changeDir(currentDir, args[0]);
-        if(error) log.warn(error);
+        if(error) log.error(error);
         if(data) currentDir = data;
       };
       break;
     case 'ls':
-      if(args.length) log.warn('Invalid input');
+      if(args.length) printInputWarn();
       else {
         const { data, error } = await getFileList(currentDir);
-        if(error) log.warn(error);
+        if(error) log.error(error);
         if(data) console.table(data);
       }
       break;
     case '.exit':
       process.exit();
     default:
-      log.warn('Invalid input');
+      printInputWarn();
       break;
   }
   printWay();
