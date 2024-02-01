@@ -5,6 +5,7 @@ import process, { stdin as input, stdout as output } from 'node:process';
 
 import getFileList from './modules/getFileList.mjs';
 import { getUserNameFromArgs, log, parseCommand } from './utils.mjs';
+import changeDir from './modules/changeDir.mjs';
 
 const userName = getUserNameFromArgs(process.argv.slice(2)) || 'My friend';
 let currentDir = homedir();
@@ -25,13 +26,17 @@ const execCommand = async (text) => {
       break;
     case 'cd':
       if(args.length !== 1) log.warn('Invalid input');
-      else currentDir = path.normalize(`${currentDir}/${args[0]}`);
+      else {
+        const { data, error } = await changeDir(currentDir, args[0]);
+        if(error) log.warn(error);
+        if(data) currentDir = data;
+      };
       break;
     case 'ls':
       if(args.length) log.warn('Invalid input');
       else {
         const { data, error } = await getFileList(currentDir);
-        if(error) log.warn('Invalid input');
+        if(error) log.warn(error);
         if(data) console.table(data);
       }
       break;
