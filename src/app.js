@@ -3,10 +3,12 @@ import { homedir } from 'node:os';
 import * as readline from 'node:readline/promises';
 import process, { stdin as input, stdout as output } from 'node:process';
 
-import getFileList from './modules/getFileList.mjs';
 import { getUserNameFromArgs, log, parseCommand } from './utils.mjs';
+import getFileList from './modules/getFileList.mjs';
 import changeDir from './modules/changeDir.mjs';
 import catFile from './modules/catFile.mjs';
+import addFile from './modules/addFile.mjs';
+
 
 const userName = getUserNameFromArgs(process.argv.slice(2)) || 'My friend';
 let currentDir = homedir();
@@ -47,6 +49,14 @@ const execCommand = async (text) => {
         const { data, error } = await catFile(currentDir, args[0]);
         if(error) log.error(error);
         if(data) console.log(data);
+      };
+      break;
+    case 'add':
+      if(args.length !== 1) printInputWarn();
+      else {
+        const { data, error } = await addFile(currentDir, args[0]);
+        if(error) log.error(error);
+        if(data) log.message(data);
       };
       break;
     case '.exit':

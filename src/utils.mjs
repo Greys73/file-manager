@@ -21,3 +21,8 @@ export const parseCommand = (text) => {
   const args = matches.map((arg) => arg.replaceAll('"', ''));
   return { command, args };
 }
+
+export const isValidFilename = (filename) => {
+  const regex = /^[^\\/:\*\?"<>\|]+$/g;
+  return regex.test(filename);
+}
