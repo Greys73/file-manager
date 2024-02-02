@@ -6,6 +6,7 @@ import process, { stdin as input, stdout as output } from 'node:process';
 import getFileList from './modules/getFileList.mjs';
 import { getUserNameFromArgs, log, parseCommand } from './utils.mjs';
 import changeDir from './modules/changeDir.mjs';
+import catFile from './modules/catFile.mjs';
 
 const userName = getUserNameFromArgs(process.argv.slice(2)) || 'My friend';
 let currentDir = homedir();
@@ -39,6 +40,14 @@ const execCommand = async (text) => {
         if(error) log.error(error);
         if(data) console.table(data);
       }
+      break;
+    case 'cat':
+      if(args.length !== 1) printInputWarn();
+      else {
+        const { data, error } = await catFile(currentDir, args[0]);
+        if(error) log.error(error);
+        if(data) console.log(data);
+      };
       break;
     case '.exit':
       process.exit();
