@@ -18,7 +18,6 @@ rl.on('line', (data) => { execCommand(data) });
 
 const execCommand = async (text) => {
   const { command, args } = parseCommand(text);
-  // console.log(command, args);
   switch (command) {
     case 'up':
     case 'cd..':
@@ -49,7 +48,6 @@ const execCommand = async (text) => {
   }
   printWay();
 };
-
 
 log.message(`Welcome to the File Manager, ${ userName }!`);
 printWay();

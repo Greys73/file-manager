@@ -3,8 +3,8 @@ import path from 'node:path';
 
 const changeDir = async (currentDir, folder) => {
   try {
-    const data = path.normalize(`${currentDir}/${folder}`);
-    await fs.access(data);
+    const data = path.isAbsolute(folder) ? folder : `${currentDir}/${folder}`;
+    await fs.access(path.normalize(data));
     return {data, error: null};
   } catch(error) {
     return {data: null, error};
