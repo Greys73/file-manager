@@ -6,7 +6,7 @@ const moveFile = async (currentDir, sourceFile, destDir, isCopy) => {
   const sourcePath = getNormalizedPath(currentDir, sourceFile);
   const fileName = path.basename(sourcePath);
   const destPath = `${getNormalizedPath(currentDir, destDir)}\\${fileName}`;
-  const successMsg = `"${sourceFile}" was ${isCopy ? 'copyed' : 'moving'} to "${destDir}"`
+  const successMsg = `"${sourceFile}" was ${isCopy ? 'copyed' : 'moving'} to "${destPath}"`
   return new Promise((resolve) => {
     const readStream = fs.createReadStream(sourcePath);
     const writeStream = fs.createWriteStream(destPath);

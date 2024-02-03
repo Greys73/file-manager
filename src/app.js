@@ -14,6 +14,7 @@ import deleteFile from './modules/deleteFile.mjs';
 import osInfo from './modules/osInfo.mjs';
 import hashFile from './modules/hashFile.mjs';
 import compressFile from './modules/compressFile.mjs';
+import decompress from './modules/decompress.mjs';
 
 
 const userName = getUserNameFromArgs(process.argv.slice(2)) || 'My friend';
@@ -119,6 +120,14 @@ const execCommand = async (text) => {
       if((args.length > 2) && (args.length < 1)) printInputWarn();
       else {
         const { data, error } = await compressFile(currentDir, ...args);
+        if(error) log.error(error);
+        if(data) log.message(data);
+      };
+      break;
+    case 'decompress':
+      if((args.length > 2) && (args.length < 1)) printInputWarn();
+      else {
+        const { data, error } = await decompress(currentDir, ...args);
         if(error) log.error(error);
         if(data) log.message(data);
       };
