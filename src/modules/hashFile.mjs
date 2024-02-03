@@ -5,7 +5,7 @@ import { getNormalizedPath } from '../utils.mjs';
 const hashFile = (currentDir, arg) => {  
   const pathToFile = getNormalizedPath(currentDir, arg);
   return new Promise((resolve) => {
-    let data = `Hash for "${pathToFile}": `;
+    let data = '';
     const stream = fs.createReadStream(pathToFile, 'utf8');
     const hash = crypto.createHash('sha256');
     stream.on('end', () => {

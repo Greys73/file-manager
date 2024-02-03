@@ -13,6 +13,7 @@ import moveFile from './modules/moveFile.mjs';
 import deleteFile from './modules/deleteFile.mjs';
 import osInfo from './modules/osInfo.mjs';
 import hashFile from './modules/hashFile.mjs';
+import compressFile from './modules/compressFile.mjs';
 
 
 const userName = getUserNameFromArgs(process.argv.slice(2)) || 'My friend';
@@ -111,7 +112,15 @@ const execCommand = async (text) => {
       else {
         const { data, error } = await hashFile(currentDir, ...args);
         if(error) log.error(error);
-        if(data) console.log(data);
+        if(data) log.message(data);
+      };
+      break;
+    case 'compress':
+      if((args.length > 2) && (args.length < 1)) printInputWarn();
+      else {
+        const { data, error } = await compressFile(currentDir, ...args);
+        if(error) log.error(error);
+        if(data) log.message(data);
       };
       break;
     case '.exit':
