@@ -7,7 +7,7 @@ const addFile = (currentDir, arg) => {
     if(isValidFilename(arg)) {
       const pathToFile = path.normalize(`${currentDir}/${arg}`);
       const stream = fs.createWriteStream(pathToFile, { flags: 'wx' });
-      const successMsg = `File "${arg}" was created in"${currentDir}"!`
+      const successMsg = `File "${arg}" was created in"${currentDir}"`
       stream.on('error', (error) => resolve({data: null, error}));
       stream.on('finish', () => resolve({data: successMsg, error: null}));
       stream.end();

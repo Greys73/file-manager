@@ -6,7 +6,7 @@ const renameFile = async (currentDir, sourceFile, destFile) => {
     const sourcePath = getNormalizedPath(currentDir, sourceFile);
     const destPath = getNormalizedPath(currentDir, destFile);
     await fs.promises.rename(sourcePath, destPath);
-    const successMsg = `File "${sourceFile}" was renamed to "${destFile}"!`
+    const successMsg = `File "${sourceFile}" was renamed to "${destFile}"`
     return {data: successMsg, error: null};
   } catch(error) {
     return {data: null, error};
