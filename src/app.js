@@ -12,6 +12,7 @@ import renameFile from './modules/renameFile.mjs';
 import moveFile from './modules/moveFile.mjs';
 import deleteFile from './modules/deleteFile.mjs';
 import osInfo from './modules/osInfo.mjs';
+import hashFile from './modules/hashFile.mjs';
 
 
 const userName = getUserNameFromArgs(process.argv.slice(2)) || 'My friend';
@@ -103,6 +104,14 @@ const execCommand = async (text) => {
           if(error) log.error(error);
           if(data) console.log(data);
         });
+      };
+      break;
+    case 'hash':
+      if(args.length !== 1) printInputWarn();
+      else {
+        const { data, error } = await hashFile(currentDir, ...args);
+        if(error) log.error(error);
+        if(data) console.log(data);
       };
       break;
     case '.exit':

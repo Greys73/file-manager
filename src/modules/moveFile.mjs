@@ -10,8 +10,7 @@ const moveFile = async (currentDir, sourceFile, destDir, isCopy) => {
   return new Promise((resolve) => {
     const readStream = fs.createReadStream(sourcePath);
     const writeStream = fs.createWriteStream(destPath);
-
-    readStream.pipe(writeStream);
+    
     readStream.on('end', async () => {
       if(!isCopy) {
         try { await fs.promises.unlink(sourcePath) }
@@ -21,6 +20,7 @@ const moveFile = async (currentDir, sourceFile, destDir, isCopy) => {
     });
     readStream.on('error', (error) => resolve({data: null, error}));
     writeStream.on('error', (error) => resolve({data: null, error}));
+    readStream.pipe(writeStream);
   });
 };
 
