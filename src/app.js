@@ -20,8 +20,9 @@ import decompress from './modules/decompress.mjs';
 const userName = getUserNameFromArgs(process.argv.slice(2)) || 'My friend';
 let currentDir = homedir();
 
-const printWay = () => log.info(`You are currently in ${ currentDir }`);
+const printWay = () => log.info(`You are currently in "${ currentDir }"`);
 const printInputWarn = () => log.warn('Invalid input');
+const printError = (error) => log.error(`Operation failed\n${error}`);
 
 const rl = readline.createInterface({ input, output, prompt: '>' });
 rl.on('line', (data) => { execCommand(data) });
@@ -38,7 +39,7 @@ const execCommand = async (text) => {
       if(args.length !== 1) printInputWarn();
       else {
         const { data, error } = await changeDir(currentDir, ...args);
-        if(error) log.error(error);
+        if(error) printError(error);
         if(data) currentDir = data;
       };
       break;
@@ -46,7 +47,7 @@ const execCommand = async (text) => {
       if(args.length) printInputWarn();
       else {
         const { data, error } = await getFileList(currentDir);
-        if(error) log.error(error);
+        if(error) printError(error);
         if(data) console.table(data);
       }
       break;
@@ -54,7 +55,7 @@ const execCommand = async (text) => {
       if(args.length !== 1) printInputWarn();
       else {
         const { data, error } = await catFile(currentDir, ...args);
-        if(error) log.error(error);
+        if(error) printError(error);
         if(data) console.log(data);
       };
       break;
@@ -62,7 +63,7 @@ const execCommand = async (text) => {
       if(args.length !== 1) printInputWarn();
       else {
         const { data, error } = await addFile(currentDir, ...args);
-        if(error) log.error(error);
+        if(error) printError(error);
         if(data) log.message(data);
       };
       break;
@@ -70,7 +71,7 @@ const execCommand = async (text) => {
       if(args.length !== 2) printInputWarn();
       else {
         const { data, error } = await renameFile(currentDir, ...args);
-        if(error) log.error(error);
+        if(error) printError(error);
         if(data) log.message(data);
       };
       break;
@@ -78,7 +79,7 @@ const execCommand = async (text) => {
       if(args.length !== 2) printInputWarn();
       else {
         const { data, error } = await moveFile(currentDir, ...args, true);
-        if(error) log.error(error);
+        if(error) printError(error);
         if(data) log.message(data);
       };
       break;
@@ -86,7 +87,7 @@ const execCommand = async (text) => {
       if(args.length !== 2) printInputWarn();
       else {
         const { data, error } = await moveFile(currentDir, ...args, false);
-        if(error) log.error(error);
+        if(error) printError(error);
         if(data) log.message(data);
       };
       break;
@@ -94,7 +95,7 @@ const execCommand = async (text) => {
       if(args.length !== 1) printInputWarn();
       else {
         const { data, error } = await deleteFile(currentDir, ...args);
-        if(error) log.error(error);
+        if(error) printError(error);
         if(data) log.message(data);
       };
       break;
@@ -103,7 +104,7 @@ const execCommand = async (text) => {
       else {
         args.forEach((arg) => {
           const { data, error } = osInfo(arg);
-          if(error) log.error(error);
+          if(error) printError(error);
           if(data) console.log(data);
         });
       };
@@ -112,7 +113,7 @@ const execCommand = async (text) => {
       if(args.length !== 1) printInputWarn();
       else {
         const { data, error } = await hashFile(currentDir, ...args);
-        if(error) log.error(error);
+        if(error) printError(error);
         if(data) log.message(data);
       };
       break;
@@ -120,7 +121,7 @@ const execCommand = async (text) => {
       if((args.length > 2) && (args.length < 1)) printInputWarn();
       else {
         const { data, error } = await compressFile(currentDir, ...args);
-        if(error) log.error(error);
+        if(error) printError(error);
         if(data) log.message(data);
       };
       break;
@@ -128,7 +129,7 @@ const execCommand = async (text) => {
       if((args.length > 2) && (args.length < 1)) printInputWarn();
       else {
         const { data, error } = await decompress(currentDir, ...args);
-        if(error) log.error(error);
+        if(error) printError(error);
         if(data) log.message(data);
       };
       break;
