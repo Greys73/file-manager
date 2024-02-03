@@ -140,10 +140,12 @@ const execCommand = async (text) => {
       break;
   }
   printWay();
+  rl.prompt();
 };
 
 log.message(`Welcome to the File Manager, ${ userName }!`);
 printWay();
+rl.prompt();
 process.on('exit', () => {
   log.message(`Thank you for using File Manager, ${userName}, goodbye!`);
 });
