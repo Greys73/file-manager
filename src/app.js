@@ -11,6 +11,7 @@ import addFile from './modules/addFile.mjs';
 import renameFile from './modules/renameFile.mjs';
 import moveFile from './modules/moveFile.mjs';
 import deleteFile from './modules/deleteFile.mjs';
+import osInfo from './modules/osInfo.mjs';
 
 
 const userName = getUserNameFromArgs(process.argv.slice(2)) || 'My friend';
@@ -92,6 +93,16 @@ const execCommand = async (text) => {
         const { data, error } = await deleteFile(currentDir, ...args);
         if(error) log.error(error);
         if(data) log.message(data);
+      };
+      break;
+    case 'os':
+      if(!args.length) printInputWarn();
+      else {
+        args.forEach((arg) => {
+          const { data, error } = osInfo(arg);
+          if(error) log.error(error);
+          if(data) console.log(data);
+        });
       };
       break;
     case '.exit':
