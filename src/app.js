@@ -8,6 +8,7 @@ import getFileList from './modules/getFileList.mjs';
 import changeDir from './modules/changeDir.mjs';
 import catFile from './modules/catFile.mjs';
 import addFile from './modules/addFile.mjs';
+import renameFile from './modules/renameFile.mjs';
 
 
 const userName = getUserNameFromArgs(process.argv.slice(2)) || 'My friend';
@@ -30,7 +31,7 @@ const execCommand = async (text) => {
     case 'cd':
       if(args.length !== 1) printInputWarn();
       else {
-        const { data, error } = await changeDir(currentDir, args[0]);
+        const { data, error } = await changeDir(currentDir, ...args);
         if(error) log.error(error);
         if(data) currentDir = data;
       };
@@ -46,7 +47,7 @@ const execCommand = async (text) => {
     case 'cat':
       if(args.length !== 1) printInputWarn();
       else {
-        const { data, error } = await catFile(currentDir, args[0]);
+        const { data, error } = await catFile(currentDir, ...args);
         if(error) log.error(error);
         if(data) console.log(data);
       };
@@ -54,7 +55,15 @@ const execCommand = async (text) => {
     case 'add':
       if(args.length !== 1) printInputWarn();
       else {
-        const { data, error } = await addFile(currentDir, args[0]);
+        const { data, error } = await addFile(currentDir, ...args);
+        if(error) log.error(error);
+        if(data) log.message(data);
+      };
+      break;
+    case 'rn':
+      if(args.length !== 2) printInputWarn();
+      else {
+        const { data, error } = await renameFile(currentDir, ...args);
         if(error) log.error(error);
         if(data) log.message(data);
       };
