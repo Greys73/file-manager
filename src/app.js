@@ -9,6 +9,7 @@ import changeDir from './modules/changeDir.mjs';
 import catFile from './modules/catFile.mjs';
 import addFile from './modules/addFile.mjs';
 import renameFile from './modules/renameFile.mjs';
+import copyFile from './modules/copyFile.mjs';
 
 
 const userName = getUserNameFromArgs(process.argv.slice(2)) || 'My friend';
@@ -64,6 +65,14 @@ const execCommand = async (text) => {
       if(args.length !== 2) printInputWarn();
       else {
         const { data, error } = await renameFile(currentDir, ...args);
+        if(error) log.error(error);
+        if(data) log.message(data);
+      };
+      break;
+    case 'cp':
+      if(args.length !== 2) printInputWarn();
+      else {
+        const { data, error } = await copyFile(currentDir, ...args);
         if(error) log.error(error);
         if(data) log.message(data);
       };
