@@ -1,8 +1,8 @@
 import fs from 'node:fs';
-import path from 'node:path';
+import { getNormalizedPath } from '../utils.mjs';
 
 const catFile = (currentDir, arg) => {  
-  const pathToFile = path.normalize(path.isAbsolute(arg) ? arg : `${currentDir}/${arg}`);
+  const pathToFile = getNormalizedPath(currentDir, arg);
   return new Promise((resolve) => {
     let data = '\n';
     const stream = fs.createReadStream(pathToFile, 'utf8');

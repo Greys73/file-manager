@@ -1,3 +1,4 @@
+import path from 'node:path';
 
 export const getUserNameFromArgs = (args) => {
   const flag = '--username=';
@@ -25,4 +26,9 @@ export const parseCommand = (text) => {
 export const isValidFilename = (filename) => {
   const regex = /^[^\\/:\*\?"<>\|]+$/g;
   return regex.test(filename);
+}
+
+export const getNormalizedPath = (cd, arg) => {
+  const resultPath = path.isAbsolute(arg) ? arg : `${cd}/${arg}`;
+  return path.normalize(resultPath);
 }
