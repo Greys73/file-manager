@@ -6,8 +6,12 @@ import { getNormalizedPath } from '../utils.mjs';
 
 const compressFile = async (currentDir, sourceFile, destDir='') => {
   const sourcePath = getNormalizedPath(currentDir, sourceFile);
-  const fileName = `${path.parse(sourcePath).name}.gz`;
-  const destPath = path.join(getNormalizedPath(currentDir, destDir), fileName);
+  let destPath = getNormalizedPath(currentDir, destDir);
+  if(!path.parse(destDir).ext) {
+    const fileName = `${path.parse(sourcePath).name}.br`;
+    destPath = path.join(destPath, fileName);
+  }
+
   const successMsg = `"${sourcePath}" archived to "${destPath}"`
   const source = fs.createReadStream(sourcePath, 'utf8');
   const archive = fs.createWriteStream(destPath);

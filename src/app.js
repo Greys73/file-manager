@@ -118,7 +118,7 @@ const execCommand = async (text) => {
       };
       break;
     case 'compress':
-      if((args.length > 2) && (args.length < 1)) printInputWarn();
+      if((args.length > 2) || (args.length < 1)) printInputWarn();
       else {
         const { data, error } = await compressFile(currentDir, ...args);
         if(error) printError(error);
@@ -126,7 +126,7 @@ const execCommand = async (text) => {
       };
       break;
     case 'decompress':
-      if((args.length > 2) && (args.length < 1)) printInputWarn();
+      if((args.length > 2) || (args.length < 1)) printInputWarn();
       else {
         const { data, error } = await decompress(currentDir, ...args);
         if(error) printError(error);

@@ -1,12 +1,14 @@
 import fs from 'node:fs';
-import { getNormalizedPath } from '../utils.mjs';
+import path from 'node:path';
+import { getNormalizedPath, isValidFilename } from '../utils.mjs';
 
 const renameFile = async (currentDir, sourceFile, destFile) => {
   try {
+    if(!isValidFilename(destFile)) throw new Error;
     const sourcePath = getNormalizedPath(currentDir, sourceFile);
-    const destPath = getNormalizedPath(currentDir, destFile);
+    const destPath = path.join(path.dirname(sourcePath), destFile);
     await fs.promises.rename(sourcePath, destPath);
-    const successMsg = `File "${sourceFile}" was renamed to "${destFile}"`
+    const successMsg = `File "${sourcePath}" was renamed to "${destFile}"`
     return {data: successMsg, error: null};
   } catch(error) {
     return {data: null, error};
